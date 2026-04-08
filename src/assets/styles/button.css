@@ -48,10 +48,10 @@
     color: #5C308D;
     margin-right: 8px;
     background: #5b308d31;
-    height: 30px;
-    width: 30px;
+    height: 25px;
+    width: 25px;
     padding: 5px;
-    border-radius: 16px;
+    border-radius: 20px;
 
 }
 
@@ -59,7 +59,7 @@
 /* userdata table */
 
 .table-container {
-  padding: 20px;
+  margin-top: 20px;
   border-radius: 12px;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;

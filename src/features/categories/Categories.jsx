@@ -103,7 +103,7 @@ const Categories = () => {
               flexDirection: "column",
             }}          >
                     
-            <Upload size={25} onClick={openFilePicker} style={{cursor:'pointer'}}/>
+            <Upload size={25} onClick={openFilePicker} style={{cursor:'pointer', color:'#5C308D'}}/>
             
             <div>
               <p>Click to upload or drag and drop</p>
@@ -122,8 +122,8 @@ const Categories = () => {
         </div>
 
         <div className="modal-footer">
-          <button className="btn btn-cancel">Cancel</button>
-          <button className="btn btn-primary">Send Invitation</button>
+          <button className="btn btn-cancel" onClick={() => setIsModalOpen(false)}>Cancel</button>
+          <button className="btn btn-primary" onClick={() => setIsModalOpen(false)}>Send Invitation</button>
         </div>
       </Modal>
     </>

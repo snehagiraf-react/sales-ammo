@@ -53,8 +53,8 @@ const Users = () => {
         </div>
 
          <div class="modal-footer">
-      <button className="btn btn-cancel">Cancel</button>
-      <button className="btn btn-primary">Send Invitation</button>
+      <button className="btn btn-cancel" onClick={() => setIsModalOpen(false)}>Cancel</button>
+      <button className="btn btn-primary" onClick={() => setIsModalOpen(false)}>Send Invitation</button>
     </div>
       </Modal>
     </>

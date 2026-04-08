@@ -6,6 +6,7 @@
   margin-bottom: 20px;
   padding: 15px;
   border-radius: 12px;
+  flex-wrap: wrap;
 }
 
 .products-search-input {
@@ -51,4 +52,51 @@
 
 .products-filter-button:active {
   background-color: #2a0a50;
+}
+
+/* Status Badge Styles */
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-family: "Montserrat", sans-serif;
+}
+
+.status-badge.status-active {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.status-badge.status-draft {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+
+/* Tags Container and Badge Styles */
+.tags{
+  margin-top: 20px;
+
+}
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-width: 200px;
+}
+
+.tag-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+  background-color: #e8dff5;
+  color: #6b4fa0;
+  border: 1px solid #d4c4e8;
+  font-family: "Montserrat", sans-serif;
 }
