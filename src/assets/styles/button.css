@@ -1,0 +1,166 @@
+.CommonButton{
+    background-color: #5C308D; /* Purple */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 16px;
+}
+.CommonButton:hover{
+    background-color: #3a0f6b; /* Darker purple on hover */
+}
+.CancelButton{
+    background-color: #f3f3f3; /* Light gray */
+    border: none;
+    color: #555;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 16px;
+}
+
+.page-header{
+   display: flex;
+   flex-direction: column;
+
+   
+    @media(max-width: 450px){
+        display: none;
+    }
+}
+.page-body{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.userIcon{
+    color: #5C308D;
+    margin-right: 8px;
+    background: #5b308d31;
+    height: 30px;
+    width: 30px;
+    padding: 5px;
+    border-radius: 16px;
+
+}
+
+
+/* userdata table */
+
+.table-container {
+  padding: 20px;
+  border-radius: 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  min-width: 600px;
+}
+
+.user-table th {
+  text-align: left;
+  padding: 12px;
+  font-size: 12px;
+  color: #888;
+}
+
+.user-table td {
+  padding: 14px 12px;
+  border-top: 1px solid #eee;
+}
+
+/* User cell */
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  background: #eee;
+  padding: 8px;
+  border-radius: 50%;
+}
+
+/* Role badges */
+.role {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.role.admin {
+  background: #e6d9ff;
+  color: #6a0dad;
+}
+
+.role.user {
+  background: #eee;
+  color: #555;
+}
+
+.role.manager {
+  background: #e0d4ff;
+  color: #5a32a3;
+}
+
+/* Toggle switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: #ccc;
+  border-radius: 20px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: 0.3s;
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.3s;
+}
+
+input:checked + .slider {
+  background-color: #6a0dad;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}

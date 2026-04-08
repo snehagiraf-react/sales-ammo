@@ -1,0 +1,32 @@
+.chart-card {
+  background: #f8f9fb;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .chart-card {
+    overflow-x: auto;
+    padding: 15px;
+  }
+  
+  .chart-container {
+    min-width: 600px;
+    overflow-x: auto;
+  }
+}
+
+.chart-card h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 10px;
+}
+
