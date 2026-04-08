@@ -40,7 +40,7 @@ h1,h2, h3,h4, label, span, p, button, input, select, textarea {
   font-family: "Montserrat", sans-serif !important;
 }
 th, td{
-  font-size: clamp(0.5rem, 3vw, 0.7rem);
+  font-size: clamp(0.5rem, 2vw, 0.8rem);
   font-weight: 700;
 }
 /* select, input, textarea {
@@ -63,7 +63,9 @@ body {
 .app {
   min-height: 100vh;
 }
-
+.table-td{
+  color: #898989;
+}
 .app-container {
   display: flex;
   flex-direction: column;

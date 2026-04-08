@@ -9,6 +9,9 @@
     align-items: center;
     gap: 1rem;
 }
+.dropdown-name{
+    margin: 0;
+}
 
 .page-title {
     font-weight: 600;

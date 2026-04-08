@@ -93,7 +93,7 @@ const UserData = () => {
               </td>
 
               {/* EMAIL */}
-              <td>{user.email}</td>
+              <td className='table-td'>{user.email}</td>
 
               {/* ROLE */}
               <td>

@@ -12,6 +12,8 @@ import { AuthProvider } from './features/auth/AuthProvider';
 import Settings from './features/settings/Settings';
 import Categories from './features/categories/Categories';
 import Products from './features/products/Products';
+import Industries from './features/industries/Industries';
+import Clients from './features/clients/Clients';
 
 /* =========================
    MAIN LAYOUT
@@ -76,6 +78,8 @@ const MainLayout = () => {
             <Route path="/subscription" element={<Subscription />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/industries" element={<Industries />} />
+            <Route path="/clients" element={<Clients />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>
         </main>

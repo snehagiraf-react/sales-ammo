@@ -1,220 +1,51 @@
-:root {
-  --gray-darker: #141414;
-  --gray-dark: #696969;
-  --gray: #999999;
-  --gray-light: #cccccc;
-  --gray-lighter: #ececec;
-  --gray-lightest: #f5f5f5;
-}
-.cards .cards__item{
-    /* height: fit-content; */
-}
-.cards .cards__item .card img {
-  height: 250px;
+.dropdown-container {
   width: 100%;
-  object-fit: cover;
-  vertical-align: middle;
+}
+
+.dropdown-item {
+  padding: 10px 0;
   display: block;
-  margin: 0 auto;
+  margin-top: 20px;
 }
 
-@media (max-width: 640px) {
-  .cards .cards__item .card img {
-    height: 200px;
-  }
-}
-
-.btn {
-  background-color: white;
-  border: 1px solid var(--gray-light);
-  /* //border-radius: 1rem; */
-  color: var(--gray-dark);
-  padding: 0.5rem;
-  text-transform: lowercase;
-}
-
-.btn--block {
-  display: block;
-  width: 100%;
-}
- 
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-  gap: 1.5rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  max-width: 100%;
-}
-
-.cards__item {
-  /* display: flex; */
-  padding: 0;
-  width: 100%;
-  min-width: 0;
-  overflow: hidden;
-}
-
-/* Responsive grid adjustments */
-/* @media (max-width: 1400px) {
-  .cards {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
-  }
-} */
-
-/* @media (max-width: 1024px) {
-  .cards {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-  }
-}
-
-@media (max-width: 640px) {
-  .cards {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-} */
-.modal-content .body {
+.dropdown-header{
   display: flex;
-  justify-content: flex-start;
-  gap: 20px;
   align-items: center;
-}
-
-/* Responsive modal content */
-@media (max-width: 768px) {
-  .modal-content .body {
-    flex-direction: column;
-    gap: 15px;
-    align-items: flex-start;
-  }
-  
-  .modal-content .body > div {
-    width: 100% !important;
-    flex: none !important;
-  }
-  
-  .modal-content .body img {
-    width: 100%;
-    max-height: 300px;
-    object-fit: cover;
-  }
-  
-  .modal-content .body p {
-  }
-}
-
-@media (max-width: 480px) {
-  .modal-content .body {
-    gap: 12px;
-  }
-  
-  .modal-content .body img {
-    max-height: 250px;
-  }
-  
-  
-}
-
-.body {
-  width: 100%;
-  max-width: 100%;
-  overflow: hidden;
-  box-sizing: border-box;
-}
-
-.readmore{
-  
-}
-.card__image:hover{
-  scale: 1.02;
-}
-
-.card {
-  background-color: white;
-  border-radius: 15px;
-  /* box-shadow: 0 20px 40px -14px rgba(0,0,0,0.25); */
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
-  height: 100%;
-  min-height: 400px;
-  width: 100%;
-  transition: transform 0.2s ease;
-}
-
-@media (max-width: 640px) {
-  .card {
-    min-height: 350px;
-  }
-}
-
-.card:hover .card__image {
-  filter: contrast(100%);
-}
-
-.card__content {
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: row;
-  /* padding: 0 1rem; */
-  margin: 20px;
-}
-
-.card__image {
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  border-top-left-radius: 0.25rem;
-  border-top-right-radius: 0.25rem;
-  /* filter: contrast(70%); */
-  /* //filter: saturate(180%); */
-  overflow: hidden;
-  position: relative;
-  /* transition: filter 0.5s cubic-bezier(.43,.41,.22,.91); */
-}
-
-.card__image::before {
-  /* content: ""; */
-  display: block;
-  /* padding-top: 56.25%; 16:9 aspect ratio */
-}
-
-@media(min-width: 40rem) {
-  .card__image::before {
-    /* padding-top: 66.6%; 3:2 aspect ratio */
-  }
-}
-
-
-
-.card__title {
-  color: var(--gray-darker);
-}
-.card__title h3{
-  text-align: left;
-  margin-bottom: 10px;
-}
-.card__text {
-  flex: 1 1 auto;
-  margin-bottom: 1.25rem;
-}
-
-.card__text--truncate {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: 0.5rem;
-}
-
-
-.mediaUploads .cards{
+  gap: 10px;
   cursor: pointer;
+}
+
+.sub-count {
+  color: #999;
+  font-size: 12px;
+}
+
+.arrow {
+  transition: 0.3s;
+}
+
+.arrow.open {
+  transform: rotate(180deg);
+}
+
+/* Content */
+.dropdown-content {
+  margin-top: 10px;
+  padding-left: 15px;
+}
+
+.dropdown-subitem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 0;
+  color: #555;
+}
+
+/* Purple dot */
+.dot {
+  width: 6px;
+  height: 6px;
+  background: #6a0dad;
+  border-radius: 50%;
 }
