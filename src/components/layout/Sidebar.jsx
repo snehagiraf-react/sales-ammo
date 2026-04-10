@@ -33,7 +33,7 @@ export default function Sidebar({ isOpen, closeSidebar }) {
       { path: "/industries", label: "Industries" },
       { path: "/clients", label: "Clients" },
       { path: "/tags", label: "Tags" },
-      { path: "/application-images", label: "Application Images" },
+      { path: "/applicationImages", label: "Application Images" },
       { path: "/analytics", label: "Analytics" },
       { path: "/settings", label: "Settings" },
     ],

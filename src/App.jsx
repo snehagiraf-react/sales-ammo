@@ -14,6 +14,8 @@ import Categories from './features/categories/Categories';
 import Products from './features/products/Products';
 import Industries from './features/industries/Industries';
 import Clients from './features/clients/Clients';
+import Tags from './features/tags/Tags';
+import ApplicationImages from './features/applicationImages/ApplicationImages';
 
 /* =========================
    MAIN LAYOUT
@@ -80,6 +82,8 @@ const MainLayout = () => {
             <Route path="/products" element={<Products />} />
             <Route path="/industries" element={<Industries />} />
             <Route path="/clients" element={<Clients />} />
+            <Route path="/tags" element={<Tags />} />
+            <Route path="/applicationImages" element={<ApplicationImages />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>
         </main>
