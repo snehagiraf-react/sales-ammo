@@ -16,6 +16,7 @@ import Industries from './features/industries/Industries';
 import Clients from './features/clients/Clients';
 import Tags from './features/tags/Tags';
 import ApplicationImages from './features/applicationImages/ApplicationImages';
+import Analytics from './features/analytics/Analytics';
 
 /* =========================
    MAIN LAYOUT
@@ -84,6 +85,7 @@ const MainLayout = () => {
             <Route path="/clients" element={<Clients />} />
             <Route path="/tags" element={<Tags />} />
             <Route path="/applicationImages" element={<ApplicationImages />} />
+            <Route path="/analytics" element={<Analytics />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>
         </main>

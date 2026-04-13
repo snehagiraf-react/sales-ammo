@@ -1,32 +1,32 @@
 import React from 'react'
-import { useState, useEffect, useRef } from "react";
-import {EllipsisVertical, Package } from "lucide-react";
+import { useState } from "react";
+import { Package } from "lucide-react";
 
 const imagesData = [
   {
     id: 1,
-    image: "/images/logo.png",
+    image: "logo.png",
     uploadedby: "john",
     date: "2024-06-01",
     contact: "approved",
   },
   {
     id: 2,
-    Image: "/images/logo.png",
+    image: "logo.png",
     uploadedby: "john",
     date: "2024-06-01",
     contact: "approved",
   },
   {
     id: 3,
-    Image: "/images/logo.png",
+    image: "logo.png",
     uploadedby: "john",
     date: "2024-06-01",
     contact: "pending",
   },
   {
     id: 4,
-    Image: "/images/logo.png",
+    image: "logo.png",
     uploadedby: "john",
     date: "2024-06-01",
     contact: "rejected",
@@ -35,42 +35,29 @@ const imagesData = [
 ];
 
 const ApplicationImagesData = () => {
-
-        const [images, setImages] = useState(imagesData);
-    const [activeDropdown, setActiveDropdown] = useState(null);
-    const dropdownRef = useRef(null);
-
-
-    // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      const isClickOutside = !event.target.closest(".actions-dropdown");
-      if (isClickOutside && activeDropdown !== null) {
-        setActiveDropdown(null);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [activeDropdown]);
-
-  const toggleDropdown = (imageId) => {
-    setActiveDropdown(activeDropdown === imageId ? null : imageId);
-  };
+  const [images] = useState(imagesData);
 
   const handleAction = (action, imageId) => {
     console.log(`${action} product ${imageId}`);
-    setActiveDropdown(null);
   };
 
   const getStatusBadgeClass = (status) => {
-    return status === "ACTIVE" ? "status-active" : "status-draft";
+    switch (status?.toLowerCase()) {
+      case "approved":
+        return "status-approved";
+      case "pending":
+        return "status-pending";
+      case "rejected":
+        return "status-rejected";
+      default:
+        return "status-default";
+    }
   };
 
   return (
     <>
+
+    
     {/* Products Table */}
       <div className="table-container">
         <table className="user-table">
@@ -85,7 +72,7 @@ const ApplicationImagesData = () => {
           </thead>
 
           <tbody>
-            {imagesData.map((images) => (
+            {images.map((images) => (
               <tr key={images.id}>
                 {/* PRODUCT */}
                 <td className="user-cell">
@@ -108,36 +95,29 @@ const ApplicationImagesData = () => {
 
                 {/* ACTIONS */}
                 <td>
-                  <div className="actions-dropdown">
+                  {images.contact?.toLowerCase() === "pending" ? (
+                    <div className="action-buttons">
+                      <button
+                        className="action-button approve-button"
+                        onClick={() => handleAction("Approve", images.id)}
+                      >
+                        Approve
+                      </button>
+                      <button
+                        className="action-button reject-button"
+                        onClick={() => handleAction("Reject", images.id)}
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  ) : (
                     <button
-                      className="actions-toggle"
-                      onClick={() => toggleDropdown(images.id)}
+                      className="action-button view-button"
+                      onClick={() => handleAction("View", images.id)}
                     >
-                      <EllipsisVertical size={20} className="actionsIcon" />
+                      View
                     </button>
-                    {activeDropdown === images.id && (
-                      <div className="actions-menu">
-                        <div
-                          className="actions-item"
-                          onClick={() => handleAction("View", images.id)}
-                        >
-                          View
-                        </div>
-                        <div
-                          className="actions-item"
-                          onClick={() => handleAction("Edit", images.id)}
-                        >
-                          Edit
-                        </div>
-                        <div
-                          className="actions-item"
-                          onClick={() => handleAction("Delete", images.id)}
-                        >
-                          Delete
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                  )}
                 </td>
               </tr>
             ))}

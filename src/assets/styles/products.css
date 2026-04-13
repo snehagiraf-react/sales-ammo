@@ -65,16 +65,28 @@
   font-family: "Montserrat", sans-serif;
 }
 
-.status-badge.status-active {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
+.status-badge.status-approved {
+  background-color: #e8f8f2;
+  color: #147d51;
+  border: 1px solid #c9ebd9;
 }
 
-.status-badge.status-draft {
-  background-color: #fff3cd;
-  color: #856404;
-  border: 1px solid #ffeeba;
+.status-badge.status-pending {
+  background-color: #fff4e5;
+  color: #9a6b1b;
+  border: 1px solid #ffe3b8;
+}
+
+.status-badge.status-rejected {
+  background-color: #fce8e8;
+  color: #8c1d18;
+  border: 1px solid #f5c2c0;
+}
+
+.status-badge.status-default {
+  background-color: #e2e8f0;
+  color: #334155;
+  border: 1px solid #cbd5e1;
 }
 
 /* Tags Container and Badge Styles */
