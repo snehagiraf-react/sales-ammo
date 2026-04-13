@@ -103,7 +103,14 @@
 
 }
 
-
+.addSectionBtn{
+  background: #E8E0F0;
+  border: none;
+  color: #5C308D;
+  border-radius: 16px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
 /* userdata table */
 
 .table-container {

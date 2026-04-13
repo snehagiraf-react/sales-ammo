@@ -33,7 +33,7 @@ export default function ShareAnalyticsChart({
       <p className="subtitle">{subtitle}</p>
 
       <div className="chart-container">
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="100%" minWidth={300} height={280}>
           <BarChart data={data}>
             <CartesianGrid stroke="#ccc" strokeDasharray="3 3" opacity={0.3} />
             <XAxis dataKey={xDataKey} />

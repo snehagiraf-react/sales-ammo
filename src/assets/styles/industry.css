@@ -49,3 +49,10 @@
   background: #6a0dad;
   border-radius: 50%;
 }
+
+.subindustry-item{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #555;
+}

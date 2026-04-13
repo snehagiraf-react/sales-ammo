@@ -55,14 +55,15 @@ const Cards = ({ cardsData }) => {
       <div className="cards-container">
         <div className="card-body">
           {dashboardCards.map((card, index) => (
-            <div className="cardItem" key={index}>
+            <div className="cardItem" key={index} style={{ background: card.bg || undefined, color: card.color || undefined }}>
               {card.trend ? (
                 <div className="card-content">
                   <div className="card-left">
-                    <h3 className="card-title">{card.title}</h3>
-                    <p className="card-value">{card.value}</p>
+                    <h3 className="card-title" style={{ color: card.color || undefined }}>{card.title}</h3>
+                    <p className="card-value" style={{ color: card.color || undefined }}>{card.value}</p>
                     <p
                       className={`card-trend ${card.isPositive ? "positive" : "negative"}`}
+                      style={{ color: card.color ? `${card.color}bb` : undefined }}
                     >
                       <span className="trend-icon">
                         {card.isPositive ? (
@@ -79,6 +80,7 @@ const Cards = ({ cardsData }) => {
                       </span>
                     </p>
                   </div>
+                  {card.icon && (
                   <div
                     className="card-icon"
                     style={{
@@ -88,6 +90,7 @@ const Cards = ({ cardsData }) => {
                   >
                     {card.icon}
                   </div>
+                  )}
                 </div>
               ) : (
                 <div className="card-category">

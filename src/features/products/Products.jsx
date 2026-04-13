@@ -111,11 +111,16 @@ const Products = () => {
           
           {/* Row */}
           <div className="form-row">
-         
+         <div className="form-group">
+              <label htmlFor="productName">Product Name</label>
             <input id="productName" placeholder="Enter product name" />
-            <select>
+            </div>
+             <div className="form-group">
+              <label htmlFor="productCategory">Category</label>
+            <select id="productCategory">
               <option>Electronics</option>
             </select>
+             </div>
           </div>
 
           {/* Description */}

@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import { UploadCloud } from 'lucide-react'
 import '../assets/styles/upoloadimages.css'
 
-const UploadImages = () => {
+const UploadImages = ({ showTitle = true }) => {
   const [isDragActive, setIsDragActive] = useState(false)
   const [selectedFile, setSelectedFile] = useState(null)
   const inputRef = useRef(null)
@@ -39,9 +39,11 @@ const UploadImages = () => {
 
   return (
     <section className="upload-images-panel">
-      <div className="upload-images-header">
-        <h2>Upload New Images</h2>
-      </div>
+      {showTitle && (
+        <div className="upload-images-header">
+          <h2>Upload New Images</h2>
+        </div>
+      )}
 
       <div
         className={`upload-images-dropzone ${isDragActive ? 'drag-active' : ''}`}

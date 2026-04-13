@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { getPageTitle } from '../../utils/getPageTitle';
 import Button from '../../components/common/button';
 import ClientData from '../../components/clientData';
+import ClientModal from '../../components/modal/clientModal';
 
 const Clients = () => {
     const location = useLocation();
@@ -19,6 +20,7 @@ const Clients = () => {
         </div>
         <Button onClick={() => setIsModalOpen(true)}>+ Add Client</Button>
       </div>
+      <ClientModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
       <ClientData />
   </>

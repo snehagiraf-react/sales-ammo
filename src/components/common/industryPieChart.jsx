@@ -73,7 +73,6 @@ const IndustryPieChart = () => {
             options={options}
             series={series}
             type="donut"
-            height={320}
             width="100%"
           />
         </div>

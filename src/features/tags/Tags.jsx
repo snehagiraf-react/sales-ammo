@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { getPageTitle } from "../../utils/getPageTitle";
 import Button from "../../components/common/button";
 import Cards from "../../components/common/cards";
-import Modal from "../../components/common/modal";
+import TagModal from "../../components/modal/tagModal";
 
 const Tags = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -76,53 +76,8 @@ const Tags = () => {
         <Button onClick={() => setIsModalOpen(true)}>+ Create Tag</Button>
       </div>
       <Cards cardsData={TagsData} />
-      {/* <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title="Add New Tag"
-      >
-        <div className="form-group">
-          <label>Category Name</label>
-          <input type="text" placeholder="Category Name" />
-        </div>
-
-        <div className="form-group">
-          <label>Category Image</label>
-          <div
-            style={{
-              border: "1px dashed black",
-              padding: "10px",
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-              borderRadius: "16px",
-              justifyContent: "center",
-              flexDirection: "column",
-            }}          >
-                    
-            <Upload size={25} onClick={openFilePicker} style={{cursor:'pointer', color:'#5C308D'}}/>
-            
-            <div>
-              <p>Click to upload or drag and drop</p>
-              <p style={{color:'#a09d9d'}}>image/*</p>
-              {selectedFile && <p style={{color:'#4CAF50'}}>{selectedFile.name}</p>}
-            </div>
-
-            <input 
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              style={{ display: 'none' }}
-            />
-          </div>
-        </div>
-
-        <div className="modal-footer">
-          <button className="btn btn-cancel" onClick={() => setIsModalOpen(false)}>Cancel</button>
-          <button className="btn btn-primary" onClick={() => setIsModalOpen(false)}>Send Invitation</button>
-        </div>
-      </Modal> */}
+      
+      <TagModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   );
 };

@@ -4,17 +4,17 @@
   border-radius: 16px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
   width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 @media (max-width: 768px) {
   .chart-card {
-    overflow-x: auto;
     padding: 15px;
   }
-  
-  .chart-container {
-    min-width: 600px;
-    overflow-x: auto;
+
+  .chart-card h3 {
+    font-size: 15px;
   }
 }
 
@@ -22,6 +22,22 @@
   margin: 0;
   font-size: 18px;
   font-weight: 600;
+}
+
+.chart-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.chart-container > * {
+  min-width: 300px;
+}
+
+@media (max-width: 480px) {
+  .chart-container .recharts-wrapper {
+    height: 220px !important;
+  }
 }
 
 .subtitle {
@@ -56,6 +72,9 @@
   border-radius: 24px;
   background: #ffffff;
   box-shadow: 0 12px 40px rgba(15, 23, 42, 0.06);
+  width: auto;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 .industry-pie-header h3 {
@@ -79,7 +98,7 @@
 }
 
 .industry-pie-chart {
-  max-width: 100%;
+  width: 100%;
 }
 
 .industry-legend {
@@ -116,20 +135,86 @@
 }
 
 @media (min-width: 900px) {
-  .industry-pie-content {
+  /* .industry-pie-content {
     grid-template-columns: 1fr 1fr;
+  } */
+}
+
+@media (max-width: 480px) {
+  .industry-pie-card {
+    padding: 16px;
+  }
+
+  .industry-legend-item {
+    padding: 8px 10px;
+    font-size: 13px;
   }
 }
 .analytics-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 50px;
+  gap: 24px;
   margin-top: 24px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
+  .analytics-grid {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
   .analytics-grid {
     grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.analytics {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 24px;
+  margin-top: 24px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .analytics {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .analytics {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.key-metrics-panel {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.key-metrics-panel .card-body {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.key-metrics-panel .cards-container {
+  margin-top: 0;
+}
+
+@media (max-width: 480px) {
+  .key-metrics-panel .card-body {
+    grid-template-columns: 1fr;
+  }
+
+  .key-metrics-panel {
+    padding: 16px;
   }
 }
 

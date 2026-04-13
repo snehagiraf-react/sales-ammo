@@ -1,9 +1,10 @@
-import React from 'react'
+import React from "react";
 import { getPageTitle } from "../../utils/getPageTitle";
 import { useLocation } from "react-router-dom";
 import UserActivityChart from "../../components/common/activeUserLineChart";
 import ShareAnalyticsChart from "../../components/common/analyticsBarChart";
 import IndustryPieChart from "../../components/common/industryPieChart";
+import MatrixSummaryCards from "../../components/matrixSummaryCards";
 
 const analyticsData = [
   { name: "Jan", total: 1250, active: 780 },
@@ -50,10 +51,15 @@ const Analytics = () => {
           fill="#5B2C83"
         />
       </div>
-
-      <IndustryPieChart />
+      <div className="analytics">
+        <IndustryPieChart />
+        <div className="key-metrics-panel">
+          <h3 style={{ margin: "0 0 16px 0", fontSize: "16px", fontWeight: "600" }}>Key Metrics Summary</h3>
+          <MatrixSummaryCards />
+        </div>
+      </div>
     </>
-  )
-}
+  );
+};
 
-export default Analytics
+export default Analytics;

@@ -5,6 +5,7 @@ import { getPageTitle } from "../../utils/getPageTitle";
 import Button from "../../components/common/button";
 import "../../assets/styles/industry.css";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import IndustryModal from "../../components/modal/industryModal";
 
 const data = [
   {
@@ -12,25 +13,25 @@ const data = [
     items: [
       "Automotive Manufacturing",
       "Electronics Manufacturing",
-      "Food & Beverage"
-    ]
+      "Food & Beverage",
+    ],
   },
   {
     title: "Healthcare",
-    items: ["Hospitals", "Pharma", "Diagnostics"]
+    items: ["Hospitals", "Pharma", "Diagnostics"],
   },
   {
     title: "Construction",
-    items: ["Residential", "Commercial", "Infrastructure"]
+    items: ["Residential", "Commercial", "Infrastructure"],
   },
   {
     title: "Technology",
-    items: ["Software", "AI", "Cloud"]
+    items: ["Software", "AI", "Cloud"],
   },
   {
     title: "Retail",
-    items: ["E-commerce", "Supermarket", "Fashion"]
-  }
+    items: ["E-commerce", "Supermarket", "Fashion"],
+  },
 ];
 
 const Industries = () => {
@@ -55,41 +56,36 @@ const Industries = () => {
         <Button onClick={() => setIsModalOpen(true)}>+ Add Industry</Button>
       </div>
 
-
-      
       <div className="subscription-section">
-          {data.map((section, index) => (
-        <div key={index} className="dropdown-item">
-          
-          {/* Header */}
-          <div
-            className="dropdown-header"
-            onClick={() => toggle(index)}
-          >
-            <span className={`arrow ${openIndex === index ? "open" : ""}`}>
-              {openIndex === index ? <ChevronUp /> : <ChevronDown />}
-            </span>
-            <span>{section.title}</span>
-            <span className="sub-count">
-              ({section.items.length} sub-industries)
-            </span>
-          </div>
-
-          {/* Content */}
-          {openIndex === index && (
-            <div className="dropdown-content">
-              {section.items.map((item, i) => (
-                <div key={i} className="dropdown-subitem">
-                  <span className="dot"></span>
-                  {item}
-                </div>
-              ))}
+        {data.map((section, index) => (
+          <div key={index} className="dropdown-item">
+            {/* Header */}
+            <div className="dropdown-header" onClick={() => toggle(index)}>
+              <span className={`arrow ${openIndex === index ? "open" : ""}`}>
+                {openIndex === index ? <ChevronUp /> : <ChevronDown />}
+              </span>
+              <span>{section.title}</span>
+              <span className="sub-count">
+                ({section.items.length} sub-industries)
+              </span>
             </div>
-          )}
 
-        </div>
-      ))}
+            {/* Content */}
+            {openIndex === index && (
+              <div className="dropdown-content">
+                {section.items.map((item, i) => (
+                  <div key={i} className="dropdown-subitem">
+                    <span className="dot"></span>
+                    {item}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
       </div>
+
+      <IndustryModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   );
 };

@@ -14,6 +14,7 @@ import {
   CarFront,
   Upload,
 } from "lucide-react";
+import UploadImages from "../../components/upoloadimages";
 
 const Categories = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -91,34 +92,7 @@ const Categories = () => {
 
         <div className="form-group">
           <label>Category Image</label>
-          <div
-            style={{
-              border: "1px dashed black",
-              padding: "10px",
-              display: "flex",
-              alignItems: "center",
-              gap: "10px",
-              borderRadius: "16px",
-              justifyContent: "center",
-              flexDirection: "column",
-            }}          >
-                    
-            <Upload size={25} onClick={openFilePicker} style={{cursor:'pointer', color:'#5C308D'}}/>
-            
-            <div>
-              <p>Click to upload or drag and drop</p>
-              <p style={{color:'#a09d9d'}}>image/*</p>
-              {selectedFile && <p style={{color:'#4CAF50'}}>{selectedFile.name}</p>}
-            </div>
-
-            <input 
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-              style={{ display: 'none' }}
-            />
-          </div>
+         <UploadImages  showTitle={false} />
         </div>
 
         <div className="modal-footer">

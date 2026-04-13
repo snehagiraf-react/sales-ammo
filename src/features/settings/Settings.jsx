@@ -1,35 +1,18 @@
-import React from "react";
-import { useState } from "react";
-import BrandManagement from "./BrandManagement";
-import Authentication from "./Authentication";
-import OfflineSettings from "./OfflineSettings";
-import Notification from "./Notification";
-import BackUp from "./BackUp";
-import Hierarchy from "./Hierarchy";
-import SystemInfo from "./SystemInfo";
-import { FaRegSave } from "react-icons/fa";
+import React from 'react'
+import CompanyProfile from '../../features/settings/companyProfile'
+import BusinessTemplate from '../../features/settings/businessTemplate'
+import Sharing from '../../features/settings/sharing'
+import Notification from '../../features/settings/notification'
 
 const Settings = () => {
-  const [save, setsave] = useState(false);
   return (
     <>
-      <button
-        className="commonButton"
-        onClick={() => setsave(!save)}
-        style={{ marginLeft: "auto" }}
-      >
-        <FaRegSave size={20} color="#ffffff" style={{ marginRight: 8 }} /> Save
-        Changes
-      </button>
-      <BrandManagement />
-      <Authentication />
-      <OfflineSettings />
-      <Notification />
-      <BackUp />
-      <Hierarchy />
-      <SystemInfo />
+    <CompanyProfile />
+    <BusinessTemplate />
+    <Sharing />
+    <Notification />
     </>
-  );
-};
+  )
+}
 
-export default Settings;
+export default Settings
