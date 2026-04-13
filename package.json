@@ -1,8 +1,8 @@
 {
-  "name": "indeva-cms",
+  "name": "salesammo-cms",
   "version": "1.0.0",
   "private": true,
-  "description": "Indeva CMS Application",
+  "description": "salesammo CMS Application",
   "main": "index.js",
   "scripts": {
     "start": "react-scripts start",
