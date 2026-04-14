@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { getPageTitle } from "../../utils/getPageTitle";
 import Button from "../../components/common/button";
 import Cards from "../../components/common/cards";
-import Modal from "../../components/common/modal";
+import CategoryModal from "../../components/modal/categoryModal";
 import {
   Smartphone,
   Wrench,
@@ -80,26 +80,7 @@ const Categories = () => {
         <Button onClick={() => setIsModalOpen(true)}>+ Add Category</Button>
       </div>
       <Cards cardsData={categoriesData} />
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title="Add New Category"
-      >
-        <div className="form-group">
-          <label>Category Name</label>
-          <input type="text" placeholder="Category Name" />
-        </div>
-
-        <div className="form-group">
-          <label>Category Image</label>
-         <UploadImages  showTitle={false} />
-        </div>
-
-        <div className="modal-footer">
-          <button className="btn btn-cancel" onClick={() => setIsModalOpen(false)}>Cancel</button>
-          <button className="btn btn-primary" onClick={() => setIsModalOpen(false)}>Send Invitation</button>
-        </div>
-      </Modal>
+      <CategoryModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   );
 };
