@@ -6,7 +6,6 @@ import Users from './features/users/users';
 import Subscription from './features/subscription/Subsccription';
 import Sidebar from './components/layout/Sidebar';
 import Header from './components/layout/Header';
-import ProtectedRoute from './features/auth/ProtectedRoute';
 import './App.css';
 import { AuthProvider } from './features/auth/AuthProvider';
 import Settings from './features/settings/Settings';
@@ -54,7 +53,7 @@ const MainLayout = () => {
   }, []);
 
   return (
-    <ProtectedRoute>
+    <>
       {/* SIDEBAR */}
       <Sidebar
         isOpen={sidebarOpen}
@@ -90,7 +89,7 @@ const MainLayout = () => {
           </Routes>
         </main>
       </div>
-    </ProtectedRoute>
+    </>
   );
 };
 
@@ -99,8 +98,8 @@ const MainLayout = () => {
 ========================= */
 export default function App() {
   return (
-    <AuthProvider>
-
+    // <AuthProvider>
+<>
       <Toaster
         position="top-right"
         toastOptions={{
@@ -114,6 +113,7 @@ export default function App() {
           <Route path="/*" element={<MainLayout />} />
         </Routes>
       </div>
-    </AuthProvider>
+      </>
+    // {/* </AuthProvider> */}
   );
 }

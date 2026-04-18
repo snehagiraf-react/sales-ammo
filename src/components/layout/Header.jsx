@@ -66,31 +66,13 @@ export default function Header({ onToggleSidebar, admin }) {
             </div>
 
             <div className="profile">
-              <GoBell size={25} className="notificationIcon" />
-              <div className="profile-dropdown">
-                <div
-                  className="profile-info"
-                  onClick={() =>
-                    setActiveDropdown(
-                      activeDropdown === "profile" ? null : "profile",
-                    )
-                  }
-                >
-                  <UserRound size={35} style={{background:'#dfd6eb', padding:'6px', borderRadius:'50%'}}/>
-                </div>
-                <div
-                  className={`dropdown-menu ${
-                    activeDropdown === "profile" ? "active" : ""
-                  }`}
-                >
-                  {adminprofile.map((item, index) => (
-                    <div className="dropdown-item" key={index}>
-                      <div className="dropdown-text">
-                        <p className="dropdown-name">{item.name}</p>
-                        <p className="dropdown-email">{item.email}</p>
-                      </div>
-                    </div>
-                  ))}
+              <GoBell size={22} className="notificationIcon" />
+              <div className="profile-divider" />
+              <div className="profile-info-row">
+                <UserRound size={35} className="profile-avatar" />
+                <div className="profile-text">
+                  <p className="dropdown-name">{admin?.name || "Admin User"}</p>
+                  <p className="dropdown-email">{admin?.email || "admin@salesammo.com"}</p>
                 </div>
               </div>
             </div>

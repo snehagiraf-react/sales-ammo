@@ -59,13 +59,13 @@ const UserData = () => {
     setUsers(updatedUsers);
   };
 
-   const toggleDropdown = (orderId) => {
-    setActiveDropdown(activeDropdown === orderId ? null : orderId);
+   const toggleDropdown = (userId) => {
+    setActiveDropdown(activeDropdown === userId ? null : userId);
   };
 
-   const handleAction = (action, orderId) => {
+   const handleAction = (action, userId) => {
     if (action === "View") {
-      navigate("/orders/ViewOrder", { state: { orderId } });
+      navigate("/users/", { state: { userId } });
     }
     setActiveDropdown(null);
   };

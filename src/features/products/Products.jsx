@@ -44,7 +44,6 @@ const Products = () => {
 
       <ProductData />
 
-
       <ProductModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
       

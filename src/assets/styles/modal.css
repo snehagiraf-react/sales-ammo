@@ -614,9 +614,9 @@
 }
 
 input, select, textarea {
-  width: 100%;
+  width: stretch;
   padding: 10px;
-  border-radius: 10px;
+  border-radius: 16px;
   border: 1px solid #ddd;
   font-size: 14px;
 }

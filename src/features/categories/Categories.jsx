@@ -1,6 +1,6 @@
 import React from "react";
-import { useState, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { getPageTitle } from "../../utils/getPageTitle";
 import Button from "../../components/common/button";
 import Cards from "../../components/common/cards";
@@ -12,28 +12,22 @@ import {
   Luggage,
   Drill,
   CarFront,
-  Upload,
 } from "lucide-react";
-import UploadImages from "../../components/upoloadimages";
 
 const Categories = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const fileInputRef = useRef(null);
+  const [editCategory, setEditCategory] = useState(null);
 
+  const handleEdit = (card) => {
+    setEditCategory(card);
+    setIsModalOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsModalOpen(false);
+    setEditCategory(null);
+  };
   const location = useLocation();
-  const navigate = useNavigate();
-
-  const openFilePicker = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
-    }
-  };
 
   const categoriesData = [
     {
@@ -79,8 +73,8 @@ const Categories = () => {
         </div>
         <Button onClick={() => setIsModalOpen(true)}>+ Add Category</Button>
       </div>
-      <Cards cardsData={categoriesData} />
-      <CategoryModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <Cards cardsData={categoriesData} onEdit={handleEdit} />
+      <CategoryModal isOpen={isModalOpen} onClose={handleClose} editData={editCategory} />
     </>
   );
 };

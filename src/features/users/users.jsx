@@ -20,7 +20,7 @@ const [isModalOpen, setIsModalOpen] = useState(false);
     <>
       <div className="page-body">
         <div className="page-header">
-          <h1 className="page-title">{getPageTitle(location.pathname)}</h1>
+          <h1 className="page-title">{getPageTitle(location.pathname)} Management</h1>
           <p style={{ color: "rgb(85, 85, 85)", fontSize: "13px" }}>
             Welcome back! Here’s what’s happening with your platform
           </p>

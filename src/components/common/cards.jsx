@@ -14,7 +14,7 @@ import {
   Trash2,
 } from "lucide-react";
 
-const Cards = ({ cardsData }) => {
+const Cards = ({ cardsData, onEdit }) => {
   const [openMenu, setOpenMenu] = useState(null);
   const dashboardCards = cardsData || [
     {
@@ -150,7 +150,7 @@ const Cards = ({ cardsData }) => {
                               color: "#333",
                               borderBottom: "1px solid #f0f0f0"
                             }}
-                            onClick={() => setOpenMenu(null)}
+                            onClick={() => { setOpenMenu(null); onEdit && onEdit(card); }}
                           >
                             <Edit2 size={16} /> Edit
                           </button>

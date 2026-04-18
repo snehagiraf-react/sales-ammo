@@ -23,14 +23,8 @@ const defaultLines = [
     dataKey: "total",
     name: "Total Users",
     stroke: "#5C308D",
-    dotColor: "#5C308D",
-  },
-  {
-    dataKey: "active",
-    name: "Active Users",
-    stroke: "#A67AFE",
-    dotColor: "#A67AFE",
-  },
+    dotColor: "#ffffff",
+  }
 ];
 
 export default function UserActivityChart({

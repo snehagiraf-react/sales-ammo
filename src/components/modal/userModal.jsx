@@ -9,7 +9,7 @@ const UserModal = ({ isOpen, onClose }) => {
     <>
     {/* ✅ Modal */}
       <Modal
-        isOpen={isOpen} onClose={onClose} title="Invite User"
+        isOpen={isOpen} onClose={onClose} title="Invite New User"
 
       >
         <div className="form-group">

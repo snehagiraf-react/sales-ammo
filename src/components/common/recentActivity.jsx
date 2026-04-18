@@ -2,13 +2,13 @@ const activities = [
   {
     initials: "SJ",
     name: "Sam Jacob",
-    action: "Added new product • Premium Widget",
+    action: "Added new product",
     time: "5 mins ago"
   },
   {
     initials: "AW",
     name: "Angel Wilson",
-    action: "Shared Catalog • Industrial Tools",
+    action: "Shared Catalog",
     time: "12 mins ago"
   },
   {
@@ -28,7 +28,7 @@ const activities = [
 export default function RecentActivity() {
   return (
     <div className="activity-card">
-      <h3 className="title">Recent Activity</h3>
+      <h3>Recent Activity</h3>
 
       {activities.map((item, index) => (
         <div key={index} className="activity-row">
