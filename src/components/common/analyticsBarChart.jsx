@@ -3,51 +3,121 @@ import {
   Bar,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
-  ResponsiveContainer
+  CartesianGrid,
+  ResponsiveContainer,
+  Legend,
 } from "recharts";
+
 import "../../assets/styles/chart.css";
+import { Bold } from "lucide-react";
 
-const defaultData = [
-  { name: "Mon", value: 2000 },
-  { name: "Tue", value: 3000 },
-  { name: "Wed", value: 2100 },
-  { name: "Thu", value: 3600 },
-  { name: "Fri", value: 2500 },
-  { name: "Sat", value: 3200 },
-  { name: "Sun", value: 2600 },
-];
+const AnalyticsBarChart = ({
+  data = [],
+  bars = [], // [{ dataKey: "sales", color: "#8884d8", name: "Sales" }]
+  xKey,
+  title, // Chart title
+  subtitle, // Chart subtitle
+  height = 300,
+  showGrid = true,
+  showLegend = false,
+  layout = "vertical", // or "vertical"
+}) => {
+  // Handle empty data or bars
+  if (!data || data.length === 0 || !bars || bars.length === 0) {
+    return (
+      <div className="chart-card">
+        {title && (
+          <div className="chart-header">
+            <h3 className="chart-title">{title}</h3>
+            {subtitle && <p className="chart-subtitle">{subtitle}</p>}
+          </div>
+        )}
+        <p
+          style={{
+            textAlign: "center",
+            color: "#6b7280",
+            padding: "40px 20px",
+          }}
+        >
+          No data available
+        </p>
+      </div>
+    );
+  }
 
-export default function ShareAnalyticsChart({
-  data = defaultData,
-  title = "Share Analytics",
-  subtitle = "Weekly share distribution",
-  fill = "#5B2C83",
-  xDataKey = "name",
-  barDataKey = "value",
-}) {
   return (
     <div className="chart-card">
-      <h3>{title}</h3>
-      <p className="subtitle">{subtitle}</p>
+      {title && (
+        <div className="chart-header">
+          <h3 className="chart-title">{title}</h3>
+          {subtitle && <p className="chart-subtitle">{subtitle}</p>}
+        </div>
+      )}
+      <div className="chart-wrapper">
+        <div style={{ minWidth: "600px" }}>
+          <ResponsiveContainer width="100%" height={height}>
+            <BarChart
+              data={data}
+              layout={layout}
+              margin={
+                layout === "vertical"
+                  ? { top: 5, right: 30, left: 0, bottom: 5 }
+                  : { top: 5, right: 30, left: 0, bottom: 5 }
+              }
+            >
+              {showGrid && (
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  vertical={false}
+                  stroke="#e5e7ebab"
+                />
+              )}
 
-      <div className="chart-container">
-        <ResponsiveContainer width="100%" minWidth={300} height={280}>
-          <BarChart data={data}>
-            <CartesianGrid stroke="#ccc" strokeDasharray="3 3" opacity={0.3} />
-            <XAxis dataKey={xDataKey} />
-            <YAxis />
-            <Tooltip />
-            <Bar
-              dataKey={barDataKey}
-              fill={fill}
-              radius={[8, 8, 0, 0]}
-              barSize={40}
-            />
-          </BarChart>
-        </ResponsiveContainer>
+              {layout === "vertical" ? (
+                <>
+                  <XAxis type="number" stroke="#6b7280" />
+                  <YAxis
+                    type="category"
+                    dataKey={xKey}
+                    stroke="#9196a0"
+                    width={140}
+                    fontSize={"14px"}
+                    fontWeight={Bold}
+                  />
+                </>
+              ) : (
+                <>
+                  <XAxis dataKey={xKey} type="category" stroke="#6b7280" />
+                  <YAxis type="number" stroke="#6b7280" />
+                </>
+              )}
+
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#ffffff",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: "8px",
+                }}
+                cursor={{ fill: "rgba(0, 0, 0, 0.05)" }}
+              />
+              {showLegend && <Legend />}
+
+              {bars.map((bar, index) => (
+                <Bar
+                  key={index}
+                  dataKey={bar.dataKey}
+                  fill={bar.color}
+                  name={bar.name}
+                  radius={layout === "vertical" ? [0, 8, 8, 0] : [8, 8, 0, 0]}
+                />
+              ))}
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default AnalyticsBarChart;

@@ -63,7 +63,7 @@ const Cards = ({ cardsData, onEdit }) => {
                     <p className="card-value" style={{ color: card.color || undefined }}>{card.value}</p>
                     <p
                       className={`card-trend ${card.isPositive ? "positive" : "negative"}`}
-                      style={{ color: card.color ? `${card.color}bb` : undefined }}
+                      style={{ color: card.color || undefined, opacity: card.color ? 0.85 : undefined }}
                     >
                       <span className="trend-icon">
                         {card.isPositive ? (

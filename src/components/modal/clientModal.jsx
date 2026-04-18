@@ -1,10 +1,30 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "../../components/common/modal";
 import UploadImages from "../../components/upoloadimages";
 
-const ClientModal = ({ isOpen, onClose }) => {
+const ClientModal = ({ isOpen, onClose, client, viewMode }) => {
+  const [clientName, setClientName] = useState("");
+  const [clientEmail, setClientEmail] = useState("");
+  const [clientPhone, setClientPhone] = useState("");
+  const [clientLocation, setClientLocation] = useState("");
   const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    if (isOpen && client) {
+      setClientName(client.client || "");
+      setClientEmail(client.contact || "");
+      setClientPhone(client.phone || "");
+      setClientLocation(client.location || "");
+      setProjects(client.projects || []);
+    } else if (isOpen && !client) {
+      setClientName("");
+      setClientEmail("");
+      setClientPhone("");
+      setClientLocation("");
+      setProjects([]);
+    }
+  }, [isOpen, client]);
 
   const addProject = () => {
     setProjects((prev) => [
@@ -25,29 +45,57 @@ const ClientModal = ({ isOpen, onClose }) => {
 
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose} title="Add Industry">
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        title={viewMode ? "View Client" : client ? "Edit Client" : "Add Client"}
+      >
         <div className="form-container">
           {/* Row 1 */}
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="productName">Client Name</label>
-              <input id="productName" placeholder="e.g., Acme Corporation" />
+              <label htmlFor="clientName">Client Name</label>
+              <input
+                id="clientName"
+                placeholder="e.g., Acme Corporation"
+                value={clientName}
+                onChange={(e) => setClientName(e.target.value)}
+                readOnly={viewMode}
+              />
             </div>
             <div className="form-group">
-              <label htmlFor="productEmail">Email</label>
-              <input id="productEmail" placeholder="contact@company.com" />
+              <label htmlFor="clientEmail">Email</label>
+              <input
+                id="clientEmail"
+                placeholder="contact@company.com"
+                value={clientEmail}
+                onChange={(e) => setClientEmail(e.target.value)}
+                readOnly={viewMode}
+              />
             </div>
           </div>
 
           {/* Row 2 */}
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="productPhone">Phone (Optional)</label>
-              <input id="productPhone" placeholder="+1 (555) 000 - 0000" />
+              <label htmlFor="clientPhone">Phone (Optional)</label>
+              <input
+                id="clientPhone"
+                placeholder="+1 (555) 000 - 0000"
+                value={clientPhone}
+                onChange={(e) => setClientPhone(e.target.value)}
+                readOnly={viewMode}
+              />
             </div>
             <div className="form-group">
-              <label htmlFor="productLocation">Location</label>
-              <input id="productLocation" placeholder="e.g., New York,USA" />
+              <label htmlFor="clientLocation">Location</label>
+              <input
+                id="clientLocation"
+                placeholder="e.g., New York,USA"
+                value={clientLocation}
+                onChange={(e) => setClientLocation(e.target.value)}
+                readOnly={viewMode}
+              />
             </div>
           </div>
           <div
@@ -60,9 +108,11 @@ const ClientModal = ({ isOpen, onClose }) => {
             }}
           >
             <label style={{ margin: 0, fontWeight: "600" }}>Projects</label>
-            <button className="addSectionBtn" onClick={addProject}>
-              + Add Project
-            </button>
+            {!viewMode && (
+              <button className="addSectionBtn" onClick={addProject}>
+                + Add Project
+              </button>
+            )}
           </div>
 
           {projects.length > 0 && (
@@ -70,7 +120,7 @@ const ClientModal = ({ isOpen, onClose }) => {
               style={{
                 background: "#f8fafc",
                 padding: "10px",
-                borderRadius: "16px",   
+                borderRadius: "16px",
                 marginBottom: "20px",
                 display: "flex",
                 flexDirection: "column",
@@ -132,6 +182,7 @@ const ClientModal = ({ isOpen, onClose }) => {
                         color: "#e53e3e",
                         cursor: "pointer",
                         fontSize: "13px",
+                        display: viewMode ? "none" : "block",
                       }}
                     >
                       Remove
@@ -153,6 +204,7 @@ const ClientModal = ({ isOpen, onClose }) => {
                     onChange={(e) =>
                       updateProject(project.id, "name", e.target.value)
                     }
+                    readOnly={viewMode}
                     style={{ marginBottom: "12px" }}
                   />
 
@@ -171,6 +223,7 @@ const ClientModal = ({ isOpen, onClose }) => {
                     onChange={(e) =>
                       updateProject(project.id, "description", e.target.value)
                     }
+                    readOnly={viewMode}
                     style={{
                       marginBottom: "12px",
                       width: "100%",
@@ -205,6 +258,7 @@ const ClientModal = ({ isOpen, onClose }) => {
                     onChange={(e) =>
                       updateProject(project.id, "location", e.target.value)
                     }
+                    readOnly={viewMode}
                   />
                 </div>
               ))}
@@ -214,11 +268,13 @@ const ClientModal = ({ isOpen, onClose }) => {
 
         <div className="modal-footer">
           <button className="btn btn-cancel" onClick={onClose}>
-            Cancel
+            {viewMode ? "Close" : "Cancel"}
           </button>
-          <button className="btn btn-primary" onClick={onClose}>
-            Save Client
-          </button>
+          {!viewMode && (
+            <button className="btn btn-primary" onClick={onClose}>
+              {client ? "Update Client" : "Save Client"}
+            </button>
+          )}
         </div>
       </Modal>
     </>

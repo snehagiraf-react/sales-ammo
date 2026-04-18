@@ -1,12 +1,32 @@
 import React from "react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Modal from "../../components/common/modal";
 import { Upload, CheckCircle, Trash2 } from "lucide-react";
 
-const ProductModal = ({ isOpen, onClose }) => {
+const ProductModal = ({ isOpen, onClose, editProduct, viewMode }) => {
+  const [productName, setProductName] = useState("");
+  const [productCategory, setProductCategory] = useState("");
+  const [productDescription, setProductDescription] = useState("");
   const [specs, setSpecs] = useState([{ key: "", value: "" }]);
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState([]);
+
+  // Seed form when editing
+  useEffect(() => {
+    if (isOpen && editProduct) {
+      setProductName(editProduct.name || "");
+      setProductCategory(editProduct.category || "");
+      setProductDescription(editProduct.description || "");
+      setTags(editProduct.tags || []);
+      setSpecs(editProduct.specs?.length ? editProduct.specs : [{ key: "", value: "" }]);
+    } else if (isOpen && !editProduct) {
+      setProductName("");
+      setProductCategory("");
+      setProductDescription("");
+      setTags([]);
+      setSpecs([{ key: "", value: "" }]);
+    }
+  }, [isOpen, editProduct]);
 
   const [selectedFiles, setSelectedFiles] = useState({
     image: null,
@@ -66,18 +86,36 @@ const ProductModal = ({ isOpen, onClose }) => {
   return (
     <>
       {/* ✅ Modal */}
-      <Modal isOpen={isOpen} onClose={onClose} title="Add product">
+      <Modal isOpen={isOpen} onClose={onClose} title={viewMode ? "View product" : editProduct ? "Edit product" : "Add product"}>
         <div className="form-container">
           {/* Row */}
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="productName">Product Name</label>
-              <input id="productName" placeholder="Enter product name" />
+              <input
+                id="productName"
+                placeholder="Enter product name"
+                value={productName}
+                onChange={(e) => setProductName(e.target.value)}
+                readOnly={viewMode}
+                style={viewMode ? { backgroundColor: "#f5f5f5", cursor: "default" } : {}}
+              />
             </div>
             <div className="form-group">
               <label htmlFor="productCategory">Category</label>
-              <select id="productCategory">
+              <select
+                id="productCategory"
+                value={productCategory}
+                onChange={(e) => setProductCategory(e.target.value)}
+                disabled={viewMode}
+                style={viewMode ? { backgroundColor: "#f5f5f5", cursor: "default" } : {}}
+              >
+                <option value="">Select category</option>
                 <option>Electronics</option>
+                <option>Industrial tools</option>
+                <option>Medical Equipment</option>
+                <option>Office Supplies</option>
+                <option>Construction</option>
               </select>
             </div>
           </div>
@@ -87,7 +125,10 @@ const ProductModal = ({ isOpen, onClose }) => {
           <textarea
             id="productDescription"
             placeholder="Enter product description"
-            style={{ width: "stretch" }}
+            style={{ width: "stretch", ...(viewMode ? { backgroundColor: "#f5f5f5", cursor: "default" } : {}) }}
+            value={productDescription}
+            onChange={(e) => setProductDescription(e.target.value)}
+            readOnly={viewMode}
           ></textarea>
 
           {/* Specifications */}
@@ -101,7 +142,8 @@ const ProductModal = ({ isOpen, onClose }) => {
                   onChange={(e) =>
                     handleSpecChange(index, "key", e.target.value)
                   }
-                  style={{ marginTop: "10px" }}
+                  style={{ marginTop: "10px", ...(viewMode ? { backgroundColor: "#f5f5f5", cursor: "default" } : {}) }}
+                  readOnly={viewMode}
                 />
                 <input
                   placeholder="Value (e.g., 2.5 kg)"
@@ -109,30 +151,35 @@ const ProductModal = ({ isOpen, onClose }) => {
                   onChange={(e) =>
                     handleSpecChange(index, "value", e.target.value)
                   }
-                  style={{ marginTop: "10px" }}
+                  style={{ marginTop: "10px", ...(viewMode ? { backgroundColor: "#f5f5f5", cursor: "default" } : {}) }}
+                  readOnly={viewMode}
                 />
               </div>
             ))}
 
-            <p className="add-link" onClick={addSpecification}>
-              + Add Specification
-            </p>
+            {!viewMode && (
+              <p className="add-link" onClick={addSpecification}>
+                + Add Specification
+              </p>
+            )}
           </div>
 
           {/* Tags */}
           <div>
             <label>Tags</label>
-            <div className="tag-row">
-              <input
-                placeholder="Add Tags"
-                value={tagInput}
-                onChange={(e) => setTagInput(e.target.value)}
-                style={{ width: "auto" }}
-              />
-              <button className="small-btn" onClick={addTag}>
-                Add
-              </button>
-            </div>
+            {!viewMode && (
+              <div className="tag-row">
+                <input
+                  placeholder="Add Tags"
+                  value={tagInput}
+                  onChange={(e) => setTagInput(e.target.value)}
+                  style={{ width: "auto" }}
+                />
+                <button className="small-btn" onClick={addTag}>
+                  Add
+                </button>
+              </div>
+            )}
 
             <div className="tags">
               {tags.map((tag, i) => (
@@ -285,20 +332,16 @@ const ProductModal = ({ isOpen, onClose }) => {
             className="btn btn-cancel"
             onClick={onClose}
           >
-            Cancel
+            {viewMode ? "Close" : "Cancel"}
           </button>
-          <button
-            className="btn btn-primary"
-            onClick={onClose}
-            // disabled={!isFormValid()}
-            // style={{
-            //   opacity: isFormValid() ? 1 : 0.5,
-            //   cursor: isFormValid() ? "pointer" : "not-allowed",
-            // }}
-            // title={isFormValid() ? "" : "Please upload all required files (Image, Video, Catalog)"}
-          >
-            Create Product
-          </button>
+          {!viewMode && (
+            <button
+              className="btn btn-primary"
+              onClick={onClose}
+            >
+              {editProduct ? "Update Product" : "Create Product"}
+            </button>
+          )}
         </div>
       </Modal>
     </>

@@ -1,27 +1,55 @@
 import React from "react";
 import { getPageTitle } from "../../utils/getPageTitle";
 import { useLocation } from "react-router-dom";
-import UserActivityChart from "../../components/common/activeUserLineChart";
-import ShareAnalyticsChart from "../../components/common/analyticsBarChart";
+import AnalyticsBarChart from "../../components/common/analyticsBarChart";
 import IndustryPieChart from "../../components/common/industryPieChart";
 import MatrixSummaryCards from "../../components/matrixSummaryCards";
+import LineChartComponent from "../../components/common/activeUserLineChart";
+import '../../assets/styles/chart.css'
 
-const analyticsData = [
-  { name: "Jan", total: 1250, active: 780 },
-  { name: "Feb", total: 1420, active: 920 },
-  { name: "Mar", total: 1600, active: 1080 },
-  { name: "Apr", total: 1880, active: 1320 },
-  { name: "May", total: 2200, active: 1650 },
-  { name: "Jun", total: 2500, active: 1920 },
-];
 
-const categoryShareData = [
+ const analyticsData = [
+    { name: "Jan", revenue: 650 },
+    { name: "Feb", revenue: 1550 },
+    { name: "Mar", revenue: 1950 },
+    { name: "Apr", revenue: 2600 },
+    { name: "May", revenue: 3500 },
+    { name: "Jun", revenue: 4900 },
+    { name: "Jul", revenue: 5400 },
+    { name: "Aug", revenue: 6200 },
+    { name: "Sep", revenue: 7100 },
+    { name: "Oct", revenue: 8200 },
+    { name: "Nov", revenue: 9500 },
+    { name: "Dec", revenue: 9800 },
+  ];
+
+  // ✅ ADD THIS
+  const revenueLines = [
+    {
+      dataKey: "revenue",
+      name: "Revenue",
+      stroke: "#5C308D",
+      dotColor: "#fefefe",
+    },
+  ];
+
+ const chartData = [
   { name: "Electronics", value: 4500 },
   { name: "Industrial", value: 3300 },
   { name: "Medical", value: 2800 },
   { name: "Office", value: 4400 },
   { name: "Construction", value: 4300 },
-];
+  ];
+
+  // ✅ Bars configuration for company growth chart
+  const bars = [
+    {
+      dataKey: "value",
+      color: "#5c308d", // Purple color
+      name: "Growth",
+    },
+  ];
+
 
 const Analytics = () => {
   const location = useLocation();
@@ -37,18 +65,24 @@ const Analytics = () => {
         </div>
       </div>
 
-      <div className="analytics-grid">
-        <UserActivityChart
+      <div className="dashboard-content">
+        <LineChartComponent
           data={analyticsData}
-          title="User Growth & Activity"
-          subtitle="Total users vs active users"
+          title="User Activity"
+          subtitle="Monthly user growth trend"
+          lines={revenueLines}
         />
 
-        <ShareAnalyticsChart
-          data={categoryShareData}
-          title="Shares by Category"
-          subtitle="Distribution across product categories"
-          fill="#5B2C83"
+        <AnalyticsBarChart
+          title="Share Analytics"
+          subtitle="Weekly share distribution"
+          data={chartData}
+          bars={bars}
+          xKey="name"
+          height={300}
+          showGrid={true}
+          showLegend={false}
+          layout="horizontal"
         />
       </div>
       <div className="analytics">

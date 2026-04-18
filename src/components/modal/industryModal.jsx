@@ -11,7 +11,7 @@ const IndustryModal = ({ isOpen, onClose }) => {
 
   const updateSubIndustry = (id, value) => {
     setSubIndustries((prev) =>
-      prev.map((sub) => (sub.id === id ? { ...sub, name: value } : sub))
+      prev.map((sub) => (sub.id === id ? { ...sub, name: value } : sub)),
     );
   };
 
@@ -34,30 +34,82 @@ const IndustryModal = ({ isOpen, onClose }) => {
 
           <UploadImages />
           {/* Sub-Industries */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
-            <label style={{ margin: 0, fontWeight: "600" }}>Sub-Industries</label>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: "8px",
+            }}
+          >
+            <label style={{ margin: 0, fontWeight: "600" }}>
+              Sub-Industries
+            </label>
             <button className="addSectionBtn" onClick={addSubIndustry}>
               + Add Sub Industry
             </button>
           </div>
 
           {subIndustries.length > 0 && (
-            <div style={{ background: "#f8fafc", padding: "10px", borderRadius: "16px", marginBottom: "20px", display: "flex", flexDirection: "column", gap: "16px" }}>
+            <div
+              style={{
+                background: "#f8fafc",
+                padding: "10px",
+                borderRadius: "16px",
+                marginBottom: "20px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "16px",
+              }}
+            >
               {subIndustries.map((sub, index) => (
-                <div key={sub.id} style={{ borderBottom: index < subIndustries.length - 1 ? "1px solid #e2e8f0" : "none", paddingBottom: index < subIndustries.length - 1 ? "16px" : "0" }}>
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
-                    <div style={{ background: "#4a227a", color: "#fff", padding: "3px 10px", borderRadius: "25px", fontSize: "13px" }}>
+                <div
+                  key={sub.id}
+                  style={{
+                    borderBottom:
+                      index < subIndustries.length - 1
+                        ? "1px solid #e2e8f0"
+                        : "none",
+                    paddingBottom:
+                      index < subIndustries.length - 1 ? "16px" : "0",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        background: "#4a227a",
+                        color: "#fff",
+                        padding: "3px 10px",
+                        borderRadius: "25px",
+                        fontSize: "13px",
+                      }}
+                    >
                       {index + 1}
                     </div>
                     <button
                       type="button"
                       onClick={() => removeSubIndustry(sub.id)}
-                      style={{ background: "none", border: "none", color: "#e53e3e", cursor: "pointer", fontSize: "13px" }}
+                      style={{
+                        background: "none",
+                        border: "none",
+                        color: "#e53e3e",
+                        cursor: "pointer",
+                        fontSize: "13px",
+                      }}
                     >
                       Remove
                     </button>
                   </div>
-                  <label style={{ marginBottom: "6px", display: "block" }}>Sub-Industry Name</label>
+                  <label style={{ marginBottom: "6px", display: "block" }}>
+                    Sub-Industry Name
+                  </label>
                   <input
                     placeholder="e.g. Automotive Manufacturing"
                     value={sub.name}

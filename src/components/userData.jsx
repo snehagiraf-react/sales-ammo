@@ -33,6 +33,7 @@ const usersData = [
 const UserData = () => {
   const [users, setUsers] = useState(usersData);
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, right: 0 });
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
@@ -59,8 +60,17 @@ const UserData = () => {
     setUsers(updatedUsers);
   };
 
-   const toggleDropdown = (userId) => {
-    setActiveDropdown(activeDropdown === userId ? null : userId);
+   const toggleDropdown = (userId, event) => {
+    if (activeDropdown === userId) {
+      setActiveDropdown(null);
+    } else {
+      const rect = event.currentTarget.getBoundingClientRect();
+      setDropdownPosition({
+        top: rect.bottom + 4,
+        right: window.innerWidth - rect.right,
+      });
+      setActiveDropdown(userId);
+    }
   };
 
    const handleAction = (action, userId) => {
@@ -119,12 +129,19 @@ const UserData = () => {
                 <div className="actions-dropdown">
                   <button
                     className="actions-toggle"
-                    onClick={() => toggleDropdown(index)}
+                    onClick={(e) => toggleDropdown(index, e)}
                   >
                     <EllipsisVertical size={20} className="actionsIcon" />
                   </button>
                   {activeDropdown === index && (
-                    <div className="actions-menu">
+                    <div
+                      className="actions-menu"
+                      style={{
+                        position: "fixed",
+                        top: dropdownPosition.top,
+                        right: dropdownPosition.right,
+                      }}
+                    >
                       <div
                         className="actions-item"
                         onClick={() => handleAction("View", user.id)}

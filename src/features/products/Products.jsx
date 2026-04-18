@@ -5,12 +5,21 @@ import { getPageTitle } from "../../utils/getPageTitle";
 import Button from "../../components/common/button";
 import { Funnel, Upload, CheckCircle, Trash2 } from "lucide-react";
 import "../../assets/styles/products.css";
-import ProductData from "../../components/productData";
+import ProductData, { productsData } from "../../components/productData";
 import ProductModal from "../../components/modal/productModal";
 
 const Products = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+  const [searchItem, setSearchItem] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
+
+  const handleFilter  = (e) => {
+    setSearchItem(e.target.value);
+    const filtered = productsData.filter((product) =>
+      product.name.toLowerCase().includes(e.target.value.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  };
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -34,6 +43,8 @@ const Products = () => {
             type="text"
             placeholder="Search by product name..."
             className="products-search-input"
+            value={searchItem}
+            onChange={handleFilter}
           />
           <button className="products-filter-button">
             <Funnel size={20} />
@@ -42,7 +53,7 @@ const Products = () => {
         </div>
       </div>
 
-      <ProductData />
+      <ProductData products={filteredProducts.length > 0 ? filteredProducts : productsData} searchItem={searchItem} />
 
       <ProductModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
