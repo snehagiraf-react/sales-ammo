@@ -1,14 +1,29 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { getPageTitle } from '../../utils/getPageTitle';
 import Button from '../../components/common/button';
 import ClientData from '../../components/clientData';
 import ClientModal from '../../components/modal/clientModal';
+import { useViewClientQuery } from '../../hooks/clients/viewClientList';
 
 const Clients = () => {
     const location = useLocation();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { data: clients, isLoading, isError } = useViewClientQuery();
+
+    useEffect(() => {
+        if (clients) {
+            console.log('Fetched clients:', clients);
+        }
+    }, [clients]);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error loading clients</div>;
+
+  // Most APIs return array inside 'data' property, or just the array directly
+  const clientList = clients?.data || clients || [];
+
   return (
   <>
   <div className="page-body">
@@ -22,7 +37,7 @@ const Clients = () => {
       </div>
       <ClientModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
-      <ClientData />
+      <ClientData  data={clientList}/>
   </>
   )
 }

@@ -30,12 +30,15 @@ const usersData = [
   },
 ];
 
-const UserData = () => {
+const UserData = ({ data = [] }) => {
   const [users, setUsers] = useState(usersData);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, right: 0 });
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+
+  // Use passed data if it's not empty, otherwise fallback to local users state
+  const dataToRender = data.length > 0 ? data : users;
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -55,9 +58,9 @@ const UserData = () => {
 
 
   const toggleStatus = (index) => {
-    const updatedUsers = [...users];
+    const updatedUsers = [...dataToRender];
     updatedUsers[index].active = !updatedUsers[index].active;
-    setUsers(updatedUsers);
+    if (data.length === 0) setUsers(updatedUsers); // Only update local state if using it
   };
 
    const toggleDropdown = (userId, event) => {
@@ -94,8 +97,8 @@ const UserData = () => {
         </thead>
 
         <tbody>
-          {users.map((user, index) => (
-            <tr key={index}>
+          {dataToRender.map((user, index) => (
+            <tr key={user.id || index}>
               {/* USER */}
               <td className="user-cell">
                 <CircleUserRound size={25} className="userIcon"/>

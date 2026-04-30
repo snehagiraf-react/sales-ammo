@@ -16,6 +16,8 @@ import Clients from './features/clients/Clients';
 import Tags from './features/tags/Tags';
 import ApplicationImages from './features/applicationImages/ApplicationImages';
 import Analytics from './features/analytics/Analytics';
+import Login from './pages/Login';
+import ProtectedRoute from './features/auth/ProtectedRoute';
 
 /* =========================
    MAIN LAYOUT
@@ -54,6 +56,8 @@ const MainLayout = () => {
 
   return (
     <>
+    <ProtectedRoute>
+
       {/* SIDEBAR */}
       <Sidebar
         isOpen={sidebarOpen}
@@ -89,6 +93,8 @@ const MainLayout = () => {
           </Routes>
         </main>
       </div>
+      </ProtectedRoute>
+
     </>
   );
 };
@@ -98,8 +104,7 @@ const MainLayout = () => {
 ========================= */
 export default function App() {
   return (
-    // <AuthProvider>
-<>
+   <AuthProvider>
       <Toaster
         position="top-right"
         toastOptions={{
@@ -110,10 +115,11 @@ export default function App() {
 
       <div className="App">
         <Routes>
+          <Route path="/login" element={<Login />} />
           <Route path="/*" element={<MainLayout />} />
         </Routes>
       </div>
-      </>
-    // {/* </AuthProvider> */}
+
+      </AuthProvider>
   );
 }

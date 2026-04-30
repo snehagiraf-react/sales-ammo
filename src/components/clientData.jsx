@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { EllipsisVertical, Package, Smartphone } from "lucide-react";
 import ClientModal from "./modal/clientModal";
+import Datatable from "./common/datatable";
 
 const productsData = [
   {
@@ -34,7 +35,7 @@ const productsData = [
   },
 ];
 
-const ClientData = () => {
+const ClientData = ({data = []}) => {
   const [clients, setClients] = useState(productsData);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, right: 0 });
@@ -95,86 +96,36 @@ const ClientData = () => {
     setIsModalOpen(true);
   };
 
+
+    const appURL = process.env.REACT_APP_IMAGE_BASE_URL
+
+
+    const columns = [
+    {
+      key: "logo",
+      label: "Logo",
+      className: "company-logo",
+      render: (value) =>
+        value ? (
+          <img src={`${appURL}${value}`} alt="Logo" style={{ width: 32, height: 32 }} />
+        ) : null,
+    },
+    { key: "name", label: "Company Name" },
+    { key: "email", label: "Email",render: (value) => <td className="tab-tds">{value}</td>,},
+    { key: "phone", label: "Phone",render: (value) => <td className="tab-tds">{value}</td>, },
+    { key: "country", label: "Country" },
+    { key: "industry", label: "Industry Title" },
+    { key: "category", label: "Category Title" },
+  ];
   return (
     <>
       {/* Products Table */}
-      <div className="table-container">
-        <table className="user-table">
-          <thead>
-            <tr>
-              <th>CLIENT</th>
-              <th>INDUSTRY</th>
-              <th>PROJECTS</th>
-              <th>CONTACT</th>
-              <th>ACTIONS</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {clients.map((client) => (
-              <tr key={client.id}>
-                {/* CLIENT */}
-                <td className="user-cell">
-                  <Package size={14} className="userIcon" />
-                  {client.client}
-                </td>
-
-                {/* INDUSTRY */}
-                <td className="table-td">{client.Industry}</td>
-
-                {/* PROJECTS */}
-                <td>
-                  <span className="tag-badge">{client.Projects}</span>
-                </td>
-
-                {/* CONTACT */}
-                <td className="table-td">{client.contact}</td>
-
-                {/* ACTIONS */}
-                <td>
-                  <div className="actions-dropdown">
-                    <button
-                      className="actions-toggle"
-                      onClick={(e) => toggleDropdown(client.id, e)}
-                    >
-                      <EllipsisVertical size={20} className="actionsIcon" />
-                    </button>
-                    {activeDropdown === client.id && (
-                      <div
-                        className="actions-menu"
-                        style={{
-                          position: "fixed",
-                          top: dropdownPosition.top,
-                          right: dropdownPosition.right,
-                        }}
-                      >
-                        <div
-                          className="actions-item"
-                          onClick={() => handleView(client)}
-                        >
-                          View
-                        </div>
-                        <div
-                          className="actions-item"
-                          onClick={() => handleEdit(client)}
-                        >
-                          Edit
-                        </div>
-                        <div
-                          className="actions-item"
-                          onClick={() => handleAction("Delete", client.id)}
-                        >
-                          Delete
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+       <Datatable
+        data={data}
+        columns={columns}
+        actions={''}
+        onAction={''}
+      />
 
       <ClientModal 
         isOpen={isModalOpen}

@@ -4,12 +4,12 @@ import {
 import api  from '../../services/api';
 
 
-export const useLoginMutation = () => {
+export const useForgotPasswordMutation = () => {
 
   return useMutation({
     mutationFn: async (body) => {
-        console.log('Login request body:', body);
-      const res = await api.post("/auth/login", body);
+        console.log('Forgot password request body:', body);
+      const res = await api.post("/auth/forgot-password", body);
       return res.data;
     }
   });
