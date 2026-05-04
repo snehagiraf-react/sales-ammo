@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import { UploadCloud } from 'lucide-react'
 import '../assets/styles/upoloadimages.css'
 
-const UploadImages = ({ showTitle = true }) => {
+const UploadImages = ({ showTitle = true, onChange }) => {
   const [isDragActive, setIsDragActive] = useState(false)
   const [selectedFile, setSelectedFile] = useState(null)
   const inputRef = useRef(null)
@@ -10,6 +10,9 @@ const UploadImages = ({ showTitle = true }) => {
   const handleFiles = (files) => {
     if (!files || files.length === 0) return
     setSelectedFile(files[0])
+    if (onChange) {
+      onChange(files[0]);
+    }
   }
 
   const handleChange = (event) => {

@@ -5,7 +5,7 @@ export const useViewCategory = () => {
     return useQuery({ 
         queryKey: ['viewcategory'], 
         queryFn: async () => { 
-            const res = await api.get('/categories/show', {
+            const res = await api.get('/category/all', {
                 params: { includeInactive: true }
             }); 
             return res.data; 

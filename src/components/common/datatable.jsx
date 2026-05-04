@@ -154,7 +154,9 @@ const Datatable = ({
     );
   };
 
-  if (data.length === 0) {
+  const tableData = Array.isArray(data) ? data : [];
+
+  if (tableData.length === 0) {
     return (
       <div className={`table-container ${className}`}>
         {title && <h3 className="table-title">{title}</h3>}
@@ -177,7 +179,7 @@ const Datatable = ({
             </tr>
           </thead>
           <tbody>
-            {data.map((row, index) => (
+            {tableData.map((row, index) => (
               <tr key={row.id || index}>
                 {defaultColumns.map((column) => (
                   <td 

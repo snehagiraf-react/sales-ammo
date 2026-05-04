@@ -32,6 +32,7 @@
 .dropdown-content {
   margin-top: 10px;
   padding-left: 15px;
+  margin-left: 80px;
 }
 
 .dropdown-subitem {
@@ -39,7 +40,7 @@
   align-items: center;
   gap: 8px;
   padding: 5px 0;
-  color: #555;
+  color: #000000;
 }
 
 /* Purple dot */

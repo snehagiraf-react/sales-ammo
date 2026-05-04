@@ -1,48 +1,82 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Modal from "../../components/common/modal";
-import UploadImages from "../../components/upoloadimages";
+import { useClientStore } from "../../hooks/clients/createClient";
+import { useViewIndustryQuery } from "../../hooks/industry/industryList";
+import { useViewCategory } from "../../hooks/categorys/category.showall";
 
-const ClientModal = ({ isOpen, onClose, client, viewMode }) => {
-  const [clientName, setClientName] = useState("");
-  const [clientEmail, setClientEmail] = useState("");
-  const [clientPhone, setClientPhone] = useState("");
-  const [clientLocation, setClientLocation] = useState("");
-  const [projects, setProjects] = useState([]);
+const ClientModal = ({
+  isOpen,
+  onClose,
+  client,
+  viewMode,
+  onSave,
+  isLoading,
+}) => {
+  const [logo, setLogo] = useState("");
+
+  const { data: industriesData, isLoading: industriesLoading } = useViewIndustryQuery();
+  const { data: categoriesData, isLoading: categoriesLoading } = useViewCategory();
+
+  const industriesList = industriesData?.data || industriesData || [];
+  const categoriesList = categoriesData?.data || categoriesData?.categories || categoriesData || [];
 
   useEffect(() => {
     if (isOpen && client) {
-      setClientName(client.client || "");
-      setClientEmail(client.contact || "");
-      setClientPhone(client.phone || "");
-      setClientLocation(client.location || "");
-      setProjects(client.projects || []);
-    } else if (isOpen && !client) {
-      setClientName("");
-      setClientEmail("");
-      setClientPhone("");
-      setClientLocation("");
-      setProjects([]);
+      setFormData({
+        logo: client.logo || "",
+        name: client.name || "",
+        email: client.email || "",
+        phone: client.phone || "",
+        country: client.country || "",
+        industry: Array.isArray(client.industry) ? (client.industry[0]?._id || client.industry[0] || "") : (client.industry?._id || client.industry || ""),
+        category: Array.isArray(client.category) ? (client.category[0]?._id || client.category[0] || "") : (client.category?._id || client.category || ""),
+      });
+    } else if (isOpen) {
+      setFormData({
+        logo: "",
+        name: "",
+        email: "",
+        phone: "",
+        country: "",
+        industry: "",
+        category: "",
+      });
     }
   }, [isOpen, client]);
 
-  const addProject = () => {
-    setProjects((prev) => [
-      ...prev,
-      { id: Date.now(), name: "", description: "", location: "", image: null },
-    ]);
-  };
+  const [formData, setFormData] = useState({
+    logo: "",
+    name: "",
+    email: "",
+    phone: "",
+    country: "",
+    industry: "",
+    category: "",
+  });
 
-  const updateProject = (id, field, value) => {
-    setProjects((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, [field]: value } : p)),
-    );
-  };
+ const handleSave = () => {
+  const formDataObj = new FormData();
 
-  const removeProject = (id) => {
-    setProjects((prev) => prev.filter((p) => p.id !== id));
-  };
+  if (formData.logo && typeof formData.logo !== "string") {
+    formDataObj.append("logo", formData.logo);
+  }
 
+  formDataObj.append("name", formData.name);
+  formDataObj.append("email", formData.email);
+  formDataObj.append("phone", formData.phone);
+  formDataObj.append("country", formData.country);
+
+  if (formData.industry) {
+    formDataObj.append("industry", formData.industry);
+  }
+  if (formData.category) {
+    formDataObj.append("category", formData.category);
+  }
+
+  // ✅ Works for both create & update
+  onSave && onSave(formDataObj);
+};
   return (
     <>
       <Modal
@@ -52,14 +86,26 @@ const ClientModal = ({ isOpen, onClose, client, viewMode }) => {
       >
         <div className="form-container">
           {/* Row 1 */}
+
+          <div className="form-group">
+            <label htmlFor="logo">Logo</label>
+            <input
+              type="file"
+              onChange={(e) =>
+                setFormData({ ...formData, logo: e.target.files[0] })
+              }
+            />
+          </div>
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="clientName">Client Name</label>
               <input
                 id="clientName"
                 placeholder="e.g., Acme Corporation"
-                value={clientName}
-                onChange={(e) => setClientName(e.target.value)}
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 readOnly={viewMode}
               />
             </div>
@@ -68,8 +114,10 @@ const ClientModal = ({ isOpen, onClose, client, viewMode }) => {
               <input
                 id="clientEmail"
                 placeholder="contact@company.com"
-                value={clientEmail}
-                onChange={(e) => setClientEmail(e.target.value)}
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 readOnly={viewMode}
               />
             </div>
@@ -82,188 +130,64 @@ const ClientModal = ({ isOpen, onClose, client, viewMode }) => {
               <input
                 id="clientPhone"
                 placeholder="+1 (555) 000 - 0000"
-                value={clientPhone}
-                onChange={(e) => setClientPhone(e.target.value)}
+                value={formData.phone}
+                onChange={(e) =>
+                  setFormData({ ...formData, phone: e.target.value })
+                }
                 readOnly={viewMode}
               />
             </div>
             <div className="form-group">
-              <label htmlFor="clientLocation">Location</label>
+              <label htmlFor="clientCountry">Country</label>
               <input
-                id="clientLocation"
-                placeholder="e.g., New York,USA"
-                value={clientLocation}
-                onChange={(e) => setClientLocation(e.target.value)}
+                id="clientCountry"
+                placeholder="e.g., India"
+                value={formData.country}
+                onChange={(e) =>
+                  setFormData({ ...formData, country: e.target.value })
+                }
                 readOnly={viewMode}
               />
             </div>
           </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginBottom: "8px",
-              flexWrap: "wrap",
-            }}
-          >
-            <label style={{ margin: 0, fontWeight: "600" }}>Projects</label>
-            {!viewMode && (
-              <button className="addSectionBtn" onClick={addProject}>
-                + Add Project
-              </button>
-            )}
-          </div>
-
-          {projects.length > 0 && (
-            <div
-              style={{
-                background: "#f8fafc",
-                padding: "10px",
-                borderRadius: "16px",
-                marginBottom: "20px",
-                display: "flex",
-                flexDirection: "column",
-                gap: "16px",
-              }}
-            >
-              {projects.map((project, index) => (
-                <div
-                  key={project.id}
-                  style={{
-                    borderBottom:
-                      index < projects.length - 1
-                        ? "1px solid #e2e8f0"
-                        : "none",
-                    paddingBottom: index < projects.length - 1 ? "16px" : "0",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      marginBottom: "12px",
-                    }}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px",
-                      }}
-                    >
-                      <div
-                        style={{
-                          background: "#4a227a",
-                          color: "#fff",
-                          width: "28px",
-                          height: "28px",
-                          borderRadius: "50%",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          fontSize: "13px",
-                          fontWeight: "600",
-                        }}
-                      >
-                        {index + 1}
-                      </div>
-                      <span style={{ fontWeight: "500", fontSize: "14px" }}>
-                        Project #{index + 1}
-                      </span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => removeProject(project.id)}
-                      style={{
-                        background: "none",
-                        border: "none",
-                        color: "#e53e3e",
-                        cursor: "pointer",
-                        fontSize: "13px",
-                        display: viewMode ? "none" : "block",
-                      }}
-                    >
-                      Remove
-                    </button>
-                  </div>
-
-                  <label
-                    style={{
-                      display: "block",
-                      marginBottom: "6px",
-                      fontWeight: "500",
-                    }}
-                  >
-                    Project Name
-                  </label>
-                  <input
-                    placeholder="e.g., Website Redesign"
-                    value={project.name}
-                    onChange={(e) =>
-                      updateProject(project.id, "name", e.target.value)
-                    }
-                    readOnly={viewMode}
-                    style={{ marginBottom: "12px" }}
-                  />
-
-                  <label
-                    style={{
-                      display: "block",
-                      marginBottom: "6px",
-                      fontWeight: "500",
-                    }}
-                  >
-                    Description
-                  </label>
-                  <textarea
-                    placeholder="Describe the project scope and objectives"
-                    value={project.description}
-                    onChange={(e) =>
-                      updateProject(project.id, "description", e.target.value)
-                    }
-                    readOnly={viewMode}
-                    style={{
-                      marginBottom: "12px",
-                      width: "100%",
-                      minHeight: "90px",
-                    }}
-                  />
-
-                  <label
-                    style={{
-                      display: "block",
-                      marginBottom: "6px",
-                      fontWeight: "500",
-                    }}
-                  >
-                    Project Image
-                  </label>
-                  <UploadImages showTitle={false} />
-
-                  <label
-                    style={{
-                      display: "block",
-                      marginTop: "12px",
-                      marginBottom: "6px",
-                      fontWeight: "500",
-                    }}
-                  >
-                    Location (Optional)
-                  </label>
-                  <input
-                    placeholder="e.g., London"
-                    value={project.location}
-                    onChange={(e) =>
-                      updateProject(project.id, "location", e.target.value)
-                    }
-                    readOnly={viewMode}
-                  />
-                </div>
-              ))}
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="clientIndustry">Industry</label>
+              <select
+                id="clientIndustry"
+                value={formData.industry}
+                onChange={(e) =>
+                  setFormData({ ...formData, industry: e.target.value })
+                }
+                disabled={viewMode || industriesLoading}
+              >
+                <option value="">Select Industry</option>
+                {industriesList.map(ind => (
+                  <option key={ind._id || ind.id} value={ind._id || ind.id}>
+                    {ind.title}
+                  </option>
+                ))}
+              </select>
             </div>
-          )}
+            <div className="form-group">
+              <label htmlFor="clientCategory">Category</label>
+              <select
+                id="clientCategory"
+                value={formData.category}
+                onChange={(e) =>
+                  setFormData({ ...formData, category: e.target.value })
+                }
+                disabled={viewMode || categoriesLoading}
+              >
+                <option value="">Select Category</option>
+                {categoriesList.map(cat => (
+                  <option key={cat._id || cat.id} value={cat._id || cat.id}>
+                    {cat.title}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
         </div>
 
         <div className="modal-footer">
@@ -271,8 +195,8 @@ const ClientModal = ({ isOpen, onClose, client, viewMode }) => {
             {viewMode ? "Close" : "Cancel"}
           </button>
           {!viewMode && (
-            <button className="btn btn-primary" onClick={onClose}>
-              {client ? "Update Client" : "Save Client"}
+            <button onClick={handleSave} disabled={isLoading}>
+              {isLoading ? "Saving..." : "Save Client"}
             </button>
           )}
         </div>

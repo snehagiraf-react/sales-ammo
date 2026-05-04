@@ -3,47 +3,23 @@ import { useState, useEffect, useRef } from "react";
 import { EllipsisVertical, Package, Smartphone } from "lucide-react";
 import ClientModal from "./modal/clientModal";
 import Datatable from "./common/datatable";
+import { useViewIndustryQuery } from "../hooks/industry/industryList";
+import { useViewCategory } from "../hooks/categorys/category.showall";
+import { useDeleteClient } from "../hooks/clients/deleteClient";
+import { toast } from "react-toastify";
+import { useClientUpdate } from "../hooks/clients/editClient";
 
-const productsData = [
-  {
-    id: 1,
-    client: "Kains Manufacturing Unit",
-    Industry: "Electronics",
-    Projects: "12 projects",
-    contact: "samjacob@kains.com",
-  },
-  {
-    id: 2,
-    client: "TechStart Inc",
-    Industry: "Industrial tools",
-    Projects: "12 projects",
-    contact: "info@techstart.com",
-  },
-  {
-    id: 3,
-    client: "HealthcarePlus Inc",
-    Industry: "Medical Equipment",
-    Projects: "12 projects",
-    contact: "contact@healthcareplus.com",
-  },
-  {
-    id: 4,
-    client: "BuildRight Co",
-    Industry: "Office Supplies",
-    Projects: "12 projects",
-    contact: "info@buildright.com",
-  },
-];
-
-const ClientData = ({data = []}) => {
-  const [clients, setClients] = useState(productsData);
+const ClientData = ({ data, className, title = [] }) => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, right: 0 });
   const [selectedClient, setSelectedClient] = useState(null);
   const [viewMode, setViewMode] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
   const dropdownRef = useRef(null);
+
+
+  const deleteMutation = useDeleteClient();
+  const updateMutation = useClientUpdate();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -96,46 +72,211 @@ const ClientData = ({data = []}) => {
     setIsModalOpen(true);
   };
 
+  const handleDelete = (client) => {
+    if (window.confirm("Are you sure you want to delete this client?")) {
+      deleteMutation.mutate(client._id);
+      toast.success("Client deleted successfully!");  
+    }
+  };
 
-    const appURL = process.env.REACT_APP_IMAGE_BASE_URL
+
+  const appURL = process.env.REACT_APP_IMAGE_BASE_URL
 
 
-    const columns = [
+  const { data: industriesData } = useViewIndustryQuery();
+  const { data: categoriesData } = useViewCategory();
+
+  const industriesList = industriesData?.data || industriesData || [];
+  const categoriesList = categoriesData?.data || categoriesData?.categories || categoriesData || [];
+
+  const getIndustryTitle = (val) => {
+    if (!val || (Array.isArray(val) && val.length === 0)) return '-';
+
+    if (Array.isArray(val)) {
+      return val.map(item => {
+        if (typeof item === 'string') {
+          const found = industriesList.find(i => i._id === item || i.id === item);
+          return found ? found.title : item;
+        }
+        if (item && item.title) return item.title;
+        if (item && item._id) {
+          const found = industriesList.find(i => i._id === item._id || i.id === item._id);
+          return found ? found.title : item._id;
+        }
+        return '-';
+      }).join(', ');
+    }
+
+    if (typeof val === 'string') {
+      const found = industriesList.find(i => i._id === val || i.id === val);
+      return found ? found.title : val;
+    }
+
+    if (typeof val === 'object') {
+      if (val.title) return val.title;
+      if (val._id) {
+        const found = industriesList.find(i => i._id === val._id || i.id === val._id);
+        return found ? found.title : val._id;
+      }
+    }
+
+    return '-';
+  };
+
+  const getCategoryTitle = (val) => {
+    if (!val || (Array.isArray(val) && val.length === 0)) return '-';
+
+    if (Array.isArray(val)) {
+      return val.map(item => {
+        if (typeof item === 'string') {
+          const found = categoriesList.find(c => c._id === item || c.id === item);
+          return found ? found.title : item;
+        }
+        if (item && item.title) return item.title;
+        if (item && item._id) {
+          const found = categoriesList.find(c => c._id === item._id || c.id === item._id);
+          return found ? found.title : item._id;
+        }
+        return '-';
+      }).join(', ');
+    }
+
+    if (typeof val === 'string') {
+      const found = categoriesList.find(c => c._id === val || c.id === val);
+      return found ? found.title : val;
+    }
+
+    if (typeof val === 'object') {
+      if (val.title) return val.title;
+      if (val._id) {
+        const found = categoriesList.find(c => c._id === val._id || c.id === val._id);
+        return found ? found.title : val._id;
+      }
+    }
+
+    return '-';
+  };
+
+  const columns = [
     {
       key: "logo",
       label: "Logo",
       className: "company-logo",
       render: (value) =>
         value ? (
-          <img src={`${appURL}${value}`} alt="Logo" style={{ width: 32, height: 32 }} />
+          <img src={`${appURL}/${value}`} alt="Logo" style={{ width: 32, height: 32 }} />
         ) : null,
     },
     { key: "name", label: "Company Name" },
-    { key: "email", label: "Email",render: (value) => <td className="tab-tds">{value}</td>,},
-    { key: "phone", label: "Phone",render: (value) => <td className="tab-tds">{value}</td>, },
-    { key: "country", label: "Country" },
-    { key: "industry", label: "Industry Title" },
-    { key: "category", label: "Category Title" },
+    { key: "email", label: "Email", render: (value) => <span className="tab-tds">{value}</span> },
+    { key: "phone", label: "Phone", render: (value) => <span className="tab-tds">{value}</span> },
+    { key: "country", label: "Country", render: (value, row) => row.country || row.location || '-' },
+    {
+      key: "industry",
+      label: "Industry Title",
+      render: (value) => getIndustryTitle(value)
+    },
+    {
+      key: "category",
+      label: "Category Title",
+      render: (value) => getCategoryTitle(value)
+    },
+    {
+      key: "actions",
+      label: "Actions",
+      render: (value, row) => {
+        const rowId = row._id || row.id;
+        return (
+          <div className="actions-dropdown">
+            <button
+              className="actions-toggle"
+              onClick={(e) => toggleDropdown(rowId, e)}
+            >
+              <EllipsisVertical size={20} className="actionsIcon" />
+            </button>
+            {activeDropdown === rowId && (
+              <div
+                className="actions-menu"
+                style={{
+                  position: "fixed",
+                  top: dropdownPosition.top,
+                  right: dropdownPosition.right,
+                  zIndex: 1000,
+                }}
+              >
+                <div
+                  className="actions-item"
+                  onClick={() => handleView(row)}
+                >
+                  View
+                </div>
+                <div
+                  className="actions-item"
+                  onClick={() => handleEdit(row)}
+                >
+                  Edit
+                </div>
+                <div
+                  className="actions-item"
+                  onClick={() => handleDelete(row)}
+                >
+                  Delete
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      }
+    },
   ];
   return (
     <>
       {/* Products Table */}
-       <Datatable
+      <Datatable
         data={data}
         columns={columns}
-        actions={''}
-        onAction={''}
+        onAction={(action) => {
+          if (action.type === 'view') {
+            handleView(action.rowData);
+          } else if (action.type === 'edit') {
+            handleEdit(action.rowData);
+          } else if (action.type === 'delete') {
+            handleDelete(action.rowData);
+          }
+        }}
       />
 
-      <ClientModal 
+      <ClientModal
         isOpen={isModalOpen}
         onClose={() => {
           setIsModalOpen(false);
           setSelectedClient(null);
           setViewMode(false);
-        }} 
+        }}
         client={selectedClient}
         viewMode={viewMode}
+        onSave={(data) => {
+          if (selectedClient) {
+            const id = selectedClient._id || selectedClient.id;
+            updateMutation.mutate(
+              { id, body: data },
+              {
+                onSuccess: () => {
+                  toast.success("Client updated successfully!");
+                  setIsModalOpen(false);
+                  setSelectedClient(null);
+                  setViewMode(false);
+                },
+                onError: (error) => {
+                  toast.error(
+                    error.response?.data?.message || "Failed to update client."
+                  );
+                },
+              }
+            );
+          }
+        }}
+        isLoading={updateMutation.isPending}
       />
     </>
   );
